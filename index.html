@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมหารค่าสเต็กปาร์ตี้ 🥩</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --border-color: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+        }
+
+        td:first-child, th:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background-color: #fff;
+            z-index: 1;
+            border-right: 1px solid var(--border-color);
+        }
+        
+        th:first-child {
+            background-color: #f8f9fa;
+            z-index: 2;
+        }
+
+        .price-col {
+            text-align: right;
+            font-weight: 500;
+            color: var(--primary-color);
+            border-right: 1px solid var(--border-color);
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .summary-box {
+            background-color: #fff0f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .summary-box h2 {
+            margin: 0 0 20px 0;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .grid-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #ffcccc;
+            box-shadow: 0 4px 6px rgba(255, 107, 107, 0.05);
+        }
+
+        .name {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .amount {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .total-check {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #636e72;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🥩 ติ๊กเลือกรายการที่กิน (รวม VAT แล้ว)</h1>
+    <p style="text-align: center; color: #636e72;">*ติ๊กออกถ้าใครไม่ได้กินเมนูนั้นๆ ระบบจะหารเฉลี่ยให้เฉพาะคนที่ติ๊ก</p>
+
+    <div class="table-responsive">
+        <table id="billTable">
+            <thead>
+                <tr>
+                    <th>รายการสินค้า</th>
+                    <th class="price-col">ราคา (฿)</th>
+                    <th>โอเว่น</th>
+                    <th>พลอย</th>
+                    <th>คิม</th>
+                    <th>เกม</th>
+                    <th>โน</th>
+                    <th>มิ้น</th>
+                </tr>
+            </thead>
+            <tbody id="billBody">
+                </tbody>
+        </table>
+    </div>
+
+    <div class="summary-box">
+        <h2>💸 ยอดโอนแต่ละคน</h2>
+        <div class="grid-results" id="resultsGrid">
+            </div>
+        <div class="total-check" id="totalCheck">
+            ยอดรวมทั้งบิล: 2,776.25 ฿ (ตรวจสอบยอดหาร: 0.00 ฿)
+        </div>
+    </div>
+</div>
+
+<script>
+    // ข้อมูลรายการสินค้าทั้งหมด (ราคาในบิลรวม VAT แล้ว)
+    const items = [
+        { name: "องุ่นไซน์", price: 189.00 },
+        { name: "เบบี้แครอท", price: 109.00 },
+        { name: "เนยสดจืด", price: 109.00 },
+        { name: "กล่องปิดมิดชิด 10กก.", price: 105.00 },
+        { name: "เกรซชาม 500 มล", price: 99.00 },
+        { name: "สุกี้ประภาศรี", price: 58.00 },
+        { name: "Seafood 500ก", price: 58.00 },
+        { name: "เห็ดออรินจิ", price: 55.00 },
+        { name: "มะนาวแป้น", price: 35.00 },
+        { name: "หอมใหญ่นอก", price: 22.00 },
+        { name: "ผักสลัดโอ็ค RPF", price: 35.00 },
+        { name: "ผักสลัดคอส RPF", price: 35.00 },
+        { name: "ผักกวางตุ้งไต้หวัน", price: 19.00 },
+        { name: "เลมอนนอก", price: 15.00 },
+        { name: "เห็ดเข็มทอง", price: 15.00 },
+        { name: "CB_เกาดามาบัวร์ ตัด", price: 42.00 },
+        { name: "CB_โชริโซ่ ตัด", price: 41.50 },
+        { name: "CB_เชดด้าบล็อค 50%", price: 37.50 },
+        { name: "CB_สโมคชีส ตัดชิ้น", price: 32.75 },
+        { name: "สันแหลมตัดสเต็กก", price: 414.00 },
+        { name: "สันนอกตัดสเต็กก", price: 414.00 },
+        { name: "Au พิคานย่าออแกนิค", price: 113.00 },
+        { name: "Au พิคานย่าออแกนิค", price: 106.25 },
+        { name: "Au สันคอวัวตัดสเต็ก", price: 133.75 },
+        { name: "กุ้งขาว", price: 214.75 },
+        { name: "คอหมู", price: 61.50 },
+        { name: "เนื้อหมูหุ่นแกง", price: 38.75 }
+    ];
+
+    const friends = ["โอเว่น", "พลอย", "คิม", "เกม", "โน", "มิ้น"];
+    const tbody = document.getElementById('billBody');
+    const resultsGrid = document.getElementById('resultsGrid');
+    const totalCheckDiv = document.getElementById('totalCheck');
+
+    // ฟังก์ชันสร้างตาราง
+    function renderTable() {
+        items.forEach((item, itemIndex) => {
+            const tr = document.createElement('tr');
+            
+            // ชื่อและราคา
+            tr.innerHTML = `
+                <td>${item.name}</td>
+                <td class="price-col">${item.price.toFixed(2)}</td>
+            `;
+
+            // สร้าง Checkbox ให้เพื่อนทุกคน (ค่าเริ่มต้นคือติ๊กถูกทุกคน)
+            friends.forEach((friend, friendIndex) => {
+                const td = document.createElement('td');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = true; // ตั้งค่าให้ทุกคนกินด้วยกันเป็น default
+                checkbox.dataset.item = itemIndex;
+                checkbox.dataset.friend = friendIndex;
+                checkbox.addEventListener('change', calculateSplit);
+                td.appendChild(checkbox);
+                tr.appendChild(td);
+            });
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    // ฟังก์ชันคำนวณเงิน
+    function calculateSplit() {
+        // รีเซ็ตยอดเงินทุกคนเป็น 0
+        let totals = new Array(friends.length).fill(0);
+        let checkTotal = 0;
+
+        items.forEach((item, itemIndex) => {
+            // หาว่าเมนูนี้มีคนติ๊กกี่คน
+            const checkboxes = document.querySelectorAll(`input[data-item="${itemIndex}"]`);
+            let checkedCount = 0;
+            let checkedIndices = [];
+
+            checkboxes.forEach((cb, fIndex) => {
+                if(cb.checked) {
+                    checkedCount++;
+                    checkedIndices.push(fIndex);
+                }
+            });
+
+            // ถ้ามีคนติ๊ก ให้เอาหน้าเมนูมาหารจำนวนคน
+            if(checkedCount > 0) {
+                const splitAmount = item.price / checkedCount;
+                checkedIndices.forEach(fIndex => {
+                    totals[fIndex] += splitAmount;
+                });
+            }
+        });
+
+        // อัปเดตการแสดงผล
+        resultsGrid.innerHTML = '';
+        totals.forEach((amount, index) => {
+            checkTotal += amount;
+            const div = document.createElement('div');
+            div.className = 'result-card';
+            div.innerHTML = `
+                <span class="name">${friends[index]}</span>
+                <span class="amount">${amount.toFixed(2)} ฿</span>
+            `;
+            resultsGrid.appendChild(div);
+        });
+
+        totalCheckDiv.innerHTML = `ยอดรวมใบเสร็จ: 2,776.25 ฿ | ผลรวมที่หารได้ตอนนี้: <b>${checkTotal.toFixed(2)} ฿</b>`;
+    }
+
+    // เริ่มทำงานตอนเปิดเว็บ
+    renderTable();
+    calculateSplit();
+
+</script>
+</body>
+</html>
