@@ -2,293 +2,386 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>โปรแกรมหารค่าสเต็กปาร์ตี้ 🥩</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>สเต็กปาร์ตี้ 🥩</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ff6b6b;
-            --bg-color: #f0f2f5;
-            --card-bg: #ffffff;
-            --text-main: #2d3436;
-            --border-color: #dfe6e9;
+            --red: #e63946;
+            --red-light: #ff6b6b;
+            --red-bg: #fff5f5;
+            --dark: #1a1a2e;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --border: #f0d0d0;
+            --surface: #fafafa;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
+            background: #f7eded;
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 140px;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            padding: 30px;
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--red);
+            color: white;
+            padding: 20px 16px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(230,57,70,0.35);
         }
 
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-top: 0;
+        .header h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
         }
 
-        .table-responsive {
-            overflow-x: auto;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+        .header p {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            margin-top: 2px;
+            font-weight: 300;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        /* ===== ITEMS LIST ===== */
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--red);
+            padding: 14px 16px 6px;
+        }
+
+        .item-card {
+            background: var(--card);
+            margin: 0 12px 8px;
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #f5e0e0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            flex: 1;
+            padding-right: 8px;
+        }
+
+        .item-price {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--red);
+            background: var(--red-bg);
+            padding: 3px 10px;
+            border-radius: 20px;
             white-space: nowrap;
         }
 
-        th, td {
-            padding: 12px 15px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
+        /* ===== FRIEND CHIPS ===== */
+        .friends-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
-        th {
-            background-color: #f8f9fa;
+        .friend-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 500;
-            position: sticky;
-            top: 0;
-        }
-
-        td:first-child, th:first-child {
-            text-align: left;
-            position: sticky;
-            left: 0;
-            background-color: #fff;
-            z-index: 1;
-            border-right: 1px solid var(--border-color);
-        }
-        
-        th:first-child {
-            background-color: #f8f9fa;
-            z-index: 2;
-        }
-
-        .price-col {
-            text-align: right;
-            font-weight: 500;
-            color: var(--primary-color);
-            border-right: 1px solid var(--border-color);
-        }
-
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-color);
             cursor: pointer;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            transition: all 0.18s ease;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        .summary-box {
-            background-color: #fff0f0;
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 20px;
+        .friend-chip.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: white;
+            box-shadow: 0 2px 8px rgba(230,57,70,0.3);
         }
 
-        .summary-box h2 {
-            margin: 0 0 20px 0;
-            text-align: center;
-            color: var(--primary-color);
+        .friend-chip .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.7;
         }
 
-        .grid-results {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 15px;
+        /* ===== STICKY SUMMARY BAR ===== */
+        .summary-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark);
+            color: white;
+            z-index: 200;
+            border-radius: 20px 20px 0 0;
+            overflow: hidden;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.2);
         }
 
-        .result-card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #ffcccc;
-            box-shadow: 0 4px 6px rgba(255, 107, 107, 0.05);
+        .summary-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            cursor: pointer;
+            background: var(--dark);
         }
 
-        .name {
-            display: block;
-            font-size: 1.1rem;
+        .summary-toggle .label {
+            font-size: 0.85rem;
             font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .summary-toggle .total {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--red-light);
+        }
+
+        .chevron {
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .summary-bar.open .chevron { transform: rotate(180deg); }
+
+        .summary-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #12121f;
+        }
+
+        .summary-bar.open .summary-content {
+            max-height: 400px;
+        }
+
+        .summary-inner {
+            padding: 12px 16px 20px;
+        }
+
+        .person-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
             margin-bottom: 8px;
         }
 
-        .amount {
-            display: block;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-color);
+        .person-row .p-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #e0e0e0;
         }
 
-        .total-check {
+        .person-row .p-amount {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--red-light);
+        }
+
+        .bill-check {
             text-align: center;
-            margin-top: 20px;
-            font-size: 1.1rem;
-            color: #636e72;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            padding-top: 10px;
+            padding-bottom: 4px;
+        }
+
+        /* ===== QUICK ALL-TOGGLE ===== */
+        .all-toggle {
+            display: flex;
+            gap: 8px;
+            padding: 4px 12px 8px;
+        }
+        .all-toggle button {
+            flex: 1;
+            padding: 6px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-all { background: var(--red); color: white; }
+        .btn-none { background: #e0e0e0; color: #555; }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 12px 8px;
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🥩 ติ๊กเลือกรายการที่กิน (รวม VAT แล้ว)</h1>
-    <p style="text-align: center; color: #636e72;">*ติ๊กออกถ้าใครไม่ได้กินเมนูนั้นๆ ระบบจะหารเฉลี่ยให้เฉพาะคนที่ติ๊ก</p>
+<div class="header">
+    <h1>🥩 สเต็กปาร์ตี้ — หารค่าอาหาร</h1>
+    <p>กดชิปเพื่อเลือก/ยกเลิกว่าใครกินเมนูนั้น</p>
+</div>
 
-    <div class="table-responsive">
-        <table id="billTable">
-            <thead>
-                <tr>
-                    <th>รายการสินค้า</th>
-                    <th class="price-col">ราคา (฿)</th>
-                    <th>โอเว่น</th>
-                    <th>พลอย</th>
-                    <th>คิม</th>
-                    <th>เกม</th>
-                    <th>โน</th>
-                    <th>มิ้น</th>
-                </tr>
-            </thead>
-            <tbody id="billBody">
-                </tbody>
-        </table>
+<div class="section-label">รายการสินค้า (รวม VAT)</div>
+
+<div id="itemsList"></div>
+
+<!-- Sticky Summary -->
+<div class="summary-bar" id="summaryBar">
+    <div class="summary-toggle" id="summaryToggle">
+        <span class="label">💸 ยอดโอนแต่ละคน</span>
+        <span class="total" id="quickTotal">0.00 ฿</span>
+        <span class="chevron">▲</span>
     </div>
-
-    <div class="summary-box">
-        <h2>💸 ยอดโอนแต่ละคน</h2>
-        <div class="grid-results" id="resultsGrid">
-            </div>
-        <div class="total-check" id="totalCheck">
-            ยอดรวมทั้งบิล: 2,776.25 ฿ (ตรวจสอบยอดหาร: 0.00 ฿)
+    <div class="summary-content">
+        <div class="summary-inner">
+            <div id="personRows"></div>
+            <div class="bill-check" id="billCheck"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // ข้อมูลรายการสินค้าทั้งหมด (ราคาในบิลรวม VAT แล้ว)
-    const items = [
-        { name: "องุ่นไซน์", price: 189.00 },
-        { name: "เบบี้แครอท", price: 109.00 },
-        { name: "เนยสดจืด", price: 109.00 },
-        { name: "กล่องปิดมิดชิด 10กก.", price: 105.00 },
-        { name: "เกรซชาม 500 มล", price: 99.00 },
-        { name: "สุกี้ประภาศรี", price: 58.00 },
-        { name: "Seafood 500ก", price: 58.00 },
-        { name: "เห็ดออรินจิ", price: 55.00 },
-        { name: "มะนาวแป้น", price: 35.00 },
-        { name: "หอมใหญ่นอก", price: 22.00 },
-        { name: "ผักสลัดโอ็ค RPF", price: 35.00 },
-        { name: "ผักสลัดคอส RPF", price: 35.00 },
-        { name: "ผักกวางตุ้งไต้หวัน", price: 19.00 },
-        { name: "เลมอนนอก", price: 15.00 },
-        { name: "เห็ดเข็มทอง", price: 15.00 },
-        { name: "CB_เกาดามาบัวร์ ตัด", price: 42.00 },
-        { name: "CB_โชริโซ่ ตัด", price: 41.50 },
-        { name: "CB_เชดด้าบล็อค 50%", price: 37.50 },
-        { name: "CB_สโมคชีส ตัดชิ้น", price: 32.75 },
-        { name: "สันแหลมตัดสเต็กก", price: 414.00 },
-        { name: "สันนอกตัดสเต็กก", price: 414.00 },
-        { name: "Au พิคานย่าออแกนิค", price: 113.00 },
-        { name: "Au พิคานย่าออแกนิค", price: 106.25 },
-        { name: "Au สันคอวัวตัดสเต็ก", price: 133.75 },
-        { name: "กุ้งขาว", price: 214.75 },
-        { name: "คอหมู", price: 61.50 },
-        { name: "เนื้อหมูหุ่นแกง", price: 38.75 }
-    ];
+const items = [
+    { name: "องุ่นไซน์", price: 189.00 },
+    { name: "เบบี้แครอท", price: 109.00 },
+    { name: "เนยสดจืด", price: 109.00 },
+    { name: "กล่องปิดมิดชิด 10กก.", price: 105.00 },
+    { name: "เกรซชาม 500 มล", price: 99.00 },
+    { name: "สุกี้ประภาศรี", price: 58.00 },
+    { name: "Seafood 500ก", price: 58.00 },
+    { name: "เห็ดออรินจิ", price: 55.00 },
+    { name: "มะนาวแป้น", price: 35.00 },
+    { name: "หอมใหญ่นอก", price: 22.00 },
+    { name: "ผักสลัดโอ็ค RPF", price: 35.00 },
+    { name: "ผักสลัดคอส RPF", price: 35.00 },
+    { name: "ผักกวางตุ้งไต้หวัน", price: 19.00 },
+    { name: "เลมอนนอก", price: 15.00 },
+    { name: "เห็ดเข็มทอง", price: 15.00 },
+    { name: "CB_เกาดามาบัวร์ ตัด", price: 42.00 },
+    { name: "CB_โชริโซ่ ตัด", price: 41.50 },
+    { name: "CB_เชดด้าบล็อค 50%", price: 37.50 },
+    { name: "CB_สโมคชีส ตัดชิ้น", price: 32.75 },
+    { name: "สันแหลมตัดสเต็กก", price: 414.00 },
+    { name: "สันนอกตัดสเต็กก", price: 414.00 },
+    { name: "Au พิคานย่าออแกนิค", price: 113.00 },
+    { name: "Au พิคานย่าออแกนิค", price: 106.25 },
+    { name: "Au สันคอวัวตัดสเต็ก", price: 133.75 },
+    { name: "กุ้งขาว", price: 214.75 },
+    { name: "คอหมู", price: 61.50 },
+    { name: "เนื้อหมูหุ่นแกง", price: 38.75 }
+];
 
-    const friends = ["โอเว่น", "พลอย", "ครีม", "เกม", "โน่", "มิ้น"];
-    const tbody = document.getElementById('billBody');
-    const resultsGrid = document.getElementById('resultsGrid');
-    const totalCheckDiv = document.getElementById('totalCheck');
+const friends = ["โอเว่น", "พลอย", "คิม", "เกม", "โน", "มิ้น"];
+const TOTAL_BILL = 2776.25;
 
-    // ฟังก์ชันสร้างตาราง
-    function renderTable() {
-        items.forEach((item, itemIndex) => {
-            const tr = document.createElement('tr');
-            
-            // ชื่อและราคา
-            tr.innerHTML = `
-                <td>${item.name}</td>
-                <td class="price-col">${item.price.toFixed(2)}</td>
-            `;
+// State: checked[itemIndex][friendIndex]
+const checked = items.map(() => friends.map(() => true));
 
-            // สร้าง Checkbox ให้เพื่อนทุกคน (ค่าเริ่มต้นคือติ๊กถูกทุกคน)
-            friends.forEach((friend, friendIndex) => {
-                const td = document.createElement('td');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.checked = true; // ตั้งค่าให้ทุกคนกินด้วยกันเป็น default
-                checkbox.dataset.item = itemIndex;
-                checkbox.dataset.friend = friendIndex;
-                checkbox.addEventListener('change', calculateSplit);
-                td.appendChild(checkbox);
-                tr.appendChild(td);
+function renderItems() {
+    const list = document.getElementById('itemsList');
+    list.innerHTML = '';
+    items.forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+
+        const header = document.createElement('div');
+        header.className = 'item-header';
+        header.innerHTML = `<span class="item-name">${item.name}</span><span class="item-price">${item.price.toFixed(2)} ฿</span>`;
+        card.appendChild(header);
+
+        const row = document.createElement('div');
+        row.className = 'friends-row';
+
+        friends.forEach((name, j) => {
+            const chip = document.createElement('div');
+            chip.className = 'friend-chip' + (checked[i][j] ? ' active' : '');
+            chip.innerHTML = `<span class="dot"></span>${name}`;
+            chip.addEventListener('click', () => {
+                checked[i][j] = !checked[i][j];
+                chip.classList.toggle('active', checked[i][j]);
+                calculate();
             });
-
-            tbody.appendChild(tr);
-        });
-    }
-
-    // ฟังก์ชันคำนวณเงิน
-    function calculateSplit() {
-        // รีเซ็ตยอดเงินทุกคนเป็น 0
-        let totals = new Array(friends.length).fill(0);
-        let checkTotal = 0;
-
-        items.forEach((item, itemIndex) => {
-            // หาว่าเมนูนี้มีคนติ๊กกี่คน
-            const checkboxes = document.querySelectorAll(`input[data-item="${itemIndex}"]`);
-            let checkedCount = 0;
-            let checkedIndices = [];
-
-            checkboxes.forEach((cb, fIndex) => {
-                if(cb.checked) {
-                    checkedCount++;
-                    checkedIndices.push(fIndex);
-                }
-            });
-
-            // ถ้ามีคนติ๊ก ให้เอาหน้าเมนูมาหารจำนวนคน
-            if(checkedCount > 0) {
-                const splitAmount = item.price / checkedCount;
-                checkedIndices.forEach(fIndex => {
-                    totals[fIndex] += splitAmount;
-                });
-            }
+            row.appendChild(chip);
         });
 
-        // อัปเดตการแสดงผล
-        resultsGrid.innerHTML = '';
-        totals.forEach((amount, index) => {
-            checkTotal += amount;
-            const div = document.createElement('div');
-            div.className = 'result-card';
-            div.innerHTML = `
-                <span class="name">${friends[index]}</span>
-                <span class="amount">${amount.toFixed(2)} ฿</span>
-            `;
-            resultsGrid.appendChild(div);
-        });
+        card.appendChild(row);
+        list.appendChild(card);
+    });
+}
 
-        totalCheckDiv.innerHTML = `ยอดรวมใบเสร็จ: 2,776.25 ฿ | ผลรวมที่หารได้ตอนนี้: <b>${checkTotal.toFixed(2)} ฿</b>`;
-    }
+function calculate() {
+    const totals = new Array(friends.length).fill(0);
+    items.forEach((item, i) => {
+        const who = checked[i].reduce((acc, v, j) => { if(v) acc.push(j); return acc; }, []);
+        if (who.length > 0) {
+            const split = item.price / who.length;
+            who.forEach(j => totals[j] += split);
+        }
+    });
 
-    // เริ่มทำงานตอนเปิดเว็บ
-    renderTable();
-    calculateSplit();
+    const checkTotal = totals.reduce((a,b) => a+b, 0);
 
+    // Quick total in header
+    document.getElementById('quickTotal').textContent = checkTotal.toFixed(2) + ' ฿';
+
+    // Person rows
+    const rowsEl = document.getElementById('personRows');
+    rowsEl.innerHTML = '';
+    friends.forEach((name, j) => {
+        const div = document.createElement('div');
+        div.className = 'person-row';
+        div.innerHTML = `<span class="p-name">${name}</span><span class="p-amount">${totals[j].toFixed(2)} ฿</span>`;
+        rowsEl.appendChild(div);
+    });
+
+    document.getElementById('billCheck').textContent = `ยอดใบเสร็จ ${TOTAL_BILL.toFixed(2)} ฿ | ผลรวมที่หาร: ${checkTotal.toFixed(2)} ฿`;
+}
+
+// Toggle summary bar
+document.getElementById('summaryToggle').addEventListener('click', () => {
+    document.getElementById('summaryBar').classList.toggle('open');
+});
+
+renderItems();
+calculate();
+
+// Auto-open summary on load
+setTimeout(() => {
+    document.getElementById('summaryBar').classList.add('open');
+}, 400);
 </script>
 </body>
 </html>
