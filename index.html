@@ -2,386 +2,287 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>สเต็กปาร์ตี้ 🥩</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KFCDer Consumer Insight Survey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --red: #e63946;
-            --red-light: #ff6b6b;
-            --red-bg: #fff5f5;
-            --dark: #1a1a2e;
-            --card: #ffffff;
-            --muted: #6b7280;
-            --border: #f0d0d0;
-            --surface: #fafafa;
+            --primary-color: #E4002B; 
+            --primary-gradient: linear-gradient(135deg, #E4002B 0%, #ff416c 100%);
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border-light: #e0e6ed;
+            --hover-bg: #fff0f2;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: 'Kanit', sans-serif;
-            background: #f7eded;
-            color: var(--dark);
-            min-height: 100vh;
-            padding-bottom: 140px;
+        * { box-sizing: border-box; font-family: 'Kanit', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 40px 20px; display: flex; justify-content: center; }
+        
+        .survey-container {
+            background-color: var(--card-bg);
+            max-width: 800px; width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            padding: 50px 40px; position: relative;
         }
-
-        /* ===== HEADER ===== */
-        .header {
-            background: var(--red);
-            color: white;
-            padding: 20px 16px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(230,57,70,0.35);
+        .survey-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: var(--primary-gradient); }
+        .header-banner { width: 100%; height: 150px; border-radius: 16px; object-fit: cover; margin-bottom: 20px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { color: var(--primary-color); font-size: 2.2rem; margin-bottom: 10px; }
+        
+        fieldset { border: none; margin-bottom: 40px; }
+        legend { font-size: 1.5rem; font-weight: 600; color: var(--text-main); margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid var(--border-light); width: 100%; display: block; }
+        .question-group { margin-bottom: 30px; }
+        .question-label { display: block; font-size: 1.15rem; font-weight: 500; margin-bottom: 15px; color: #34495e; }
+        
+        /* ตารางจัดวางตัวเลือกแบบการ์ด */
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .radio-btn input[type="radio"] { display: none; }
+        .radio-btn span {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 15px; background-color: #f8f9fa; border: 2px solid var(--border-light);
+            border-radius: 16px; cursor: pointer; transition: all 0.3s ease; height: 100%; text-align: center;
         }
-
-        .header h1 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 0.01em;
+        .option-image { width: 100%; height: 100px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; transition: all 0.3s ease; }
+        .option-text { font-size: 1.05rem; color: var(--text-muted); font-weight: 500; }
+        
+        .radio-btn:hover span { border-color: var(--primary-color); background-color: var(--hover-bg); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(228, 0, 43, 0.1); }
+        .radio-btn input[type="radio"]:checked + span { border-color: var(--primary-color); background-color: var(--hover-bg); box-shadow: 0 0 0 2px var(--primary-color); }
+        .radio-btn input[type="radio"]:checked + span .option-text { color: var(--primary-color); font-weight: 600; }
+        
+        .submit-btn {
+            width: 100%; padding: 18px; background: var(--primary-gradient); color: white; border: none;
+            border-radius: 16px; font-size: 1.3rem; font-weight: 600; cursor: pointer; margin-top: 20px; transition: all 0.3s ease;
         }
-
-        .header p {
-            font-size: 0.75rem;
-            opacity: 0.85;
-            margin-top: 2px;
-            font-weight: 300;
-        }
-
-        /* ===== ITEMS LIST ===== */
-        .section-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--red);
-            padding: 14px 16px 6px;
-        }
-
-        .item-card {
-            background: var(--card);
-            margin: 0 12px 8px;
-            border-radius: 14px;
-            padding: 14px 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #f5e0e0;
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .item-name {
-            font-size: 0.95rem;
-            font-weight: 500;
-            flex: 1;
-            padding-right: 8px;
-        }
-
-        .item-price {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--red);
-            background: var(--red-bg);
-            padding: 3px 10px;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
-
-        /* ===== FRIEND CHIPS ===== */
-        .friends-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .friend-chip {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            border: 2px solid var(--border);
-            background: var(--surface);
-            color: var(--muted);
-            transition: all 0.18s ease;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        .friend-chip.active {
-            background: var(--red);
-            border-color: var(--red);
-            color: white;
-            box-shadow: 0 2px 8px rgba(230,57,70,0.3);
-        }
-
-        .friend-chip .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-            opacity: 0.7;
-        }
-
-        /* ===== STICKY SUMMARY BAR ===== */
-        .summary-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--dark);
-            color: white;
-            z-index: 200;
-            border-radius: 20px 20px 0 0;
-            overflow: hidden;
-            box-shadow: 0 -8px 30px rgba(0,0,0,0.2);
-        }
-
-        .summary-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            cursor: pointer;
-            background: var(--dark);
-        }
-
-        .summary-toggle .label {
-            font-size: 0.85rem;
-            font-weight: 500;
-            opacity: 0.7;
-        }
-
-        .summary-toggle .total {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--red-light);
-        }
-
-        .chevron {
-            font-size: 1.1rem;
-            transition: transform 0.3s;
-        }
-
-        .summary-bar.open .chevron { transform: rotate(180deg); }
-
-        .summary-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease;
-            background: #12121f;
-        }
-
-        .summary-bar.open .summary-content {
-            max-height: 400px;
-        }
-
-        .summary-inner {
-            padding: 12px 16px 20px;
-        }
-
-        .person-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-
-        .person-row .p-name {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #e0e0e0;
-        }
-
-        .person-row .p-amount {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--red-light);
-        }
-
-        .bill-check {
-            text-align: center;
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.4);
-            padding-top: 10px;
-            padding-bottom: 4px;
-        }
-
-        /* ===== QUICK ALL-TOGGLE ===== */
-        .all-toggle {
-            display: flex;
-            gap: 8px;
-            padding: 4px 12px 8px;
-        }
-        .all-toggle button {
-            flex: 1;
-            padding: 6px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Kanit', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .btn-all { background: var(--red); color: white; }
-        .btn-none { background: #e0e0e0; color: #555; }
-
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 4px 12px 8px;
-            opacity: 0.5;
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(228, 0, 43, 0.4); }
+        
+        @media (max-width: 600px) {
+            .survey-container { padding: 30px 20px; }
+            .header h1 { font-size: 1.8rem; }
+            .question-label { font-size: 1.05rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>🥩 สเต็กปาร์ตี้ — หารค่าอาหาร</h1>
-    <p>กดชิปเพื่อเลือก/ยกเลิกว่าใครกินเมนูนั้น</p>
-</div>
+    <div class="survey-container">
+        <!-- แบนเนอร์หัวเว็บ -->
+        <img src="https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?q=80&w=1000&auto=format&fit=crop" alt="KFCDer Banner" class="header-banner">
+        
+        <header class="header">
+            <h1>KFCDer Insight Survey</h1>
+            <p>ร่วมแชร์ไอเดียสร้างประสบการณ์ Swipe Your Soul ในแบบของคุณ</p>
+        </header>
 
-<div class="section-label">รายการสินค้า (รวม VAT)</div>
+        <form action="#" method="POST">
+            
+            <!-- ================= ส่วนที่ 1: ข้อมูลส่วนตัว ================= -->
+            <fieldset>
+                <legend>👤 ข้อมูลส่วนตัว</legend>
 
-<div id="itemsList"></div>
+                <div class="question-group">
+                    <label class="question-label">1. อายุของคุณ</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="age" value="under18"><span><div class="option-text">ต่ำกว่า 18 ปี</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="age" value="18-22"><span><div class="option-text">18-22 ปี</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="age" value="23-27"><span><div class="option-text">23-27 ปี</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="age" value="28up"><span><div class="option-text">28 ปีขึ้นไป</div></span></label>
+                    </div>
+                </div>
 
-<!-- Sticky Summary -->
-<div class="summary-bar" id="summaryBar">
-    <div class="summary-toggle" id="summaryToggle">
-        <span class="label">💸 ยอดโอนแต่ละคน</span>
-        <span class="total" id="quickTotal">0.00 ฿</span>
-        <span class="chevron">▲</span>
+                <div class="question-group">
+                    <label class="question-label">2. สถานะปัจจุบัน</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="status" value="student"><span><div class="option-text">นักเรียน / นักศึกษา</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="status" value="employee"><span><div class="option-text">พนักงานบริษัท</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="status" value="business"><span><div class="option-text">ธุรกิจส่วนตัว</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="status" value="others"><span><div class="option-text">อื่น ๆ</div></span></label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- ================= ส่วนที่ 2: Insight Question ================= -->
+            <fieldset>
+                <legend>🎯 Insight Question</legend>
+
+                <div class="question-group">
+                    <label class="question-label">1. ปกติคุณเลือกเมนูของ KFC จากอะไรเป็นหลัก</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="iq1" value="promotion"><span><div class="option-text">โปรโมชั่น</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq1" value="favorite"><span><div class="option-text">เมนูที่ชอบอยู่แล้ว</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq1" value="recommend"><span><div class="option-text">เพื่อนแนะนำ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq1" value="convenience"><span><div class="option-text">ความสะดวก</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">2. เวลาเลือกเมนู คุณชอบอะไรที่สุด</label>
+                    <div class="options-grid">
+                        <label class="radio-btn">
+                            <input type="radio" name="iq2" value="fried_chicken">
+                            <span>
+                                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=500&auto=format&fit=crop" class="option-image">
+                                <div class="option-text">ไก่ทอด</div>
+                            </span>
+                        </label>
+                        <label class="radio-btn">
+                            <input type="radio" name="iq2" value="burger">
+                            <span>
+                                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop" class="option-image">
+                                <div class="option-text">เบอร์เกอร์</div>
+                            </span>
+                        </label>
+                        <label class="radio-btn">
+                            <input type="radio" name="iq2" value="rice">
+                            <span>
+                                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=500&auto=format&fit=crop" class="option-image">
+                                <div class="option-text">เมนูข้าว</div>
+                            </span>
+                        </label>
+                        <label class="radio-btn">
+                            <input type="radio" name="iq2" value="snack">
+                            <span>
+                                <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=500&auto=format&fit=crop" class="option-image">
+                                <div class="option-text">ของทานเล่น</div>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">3. คุณเคยรู้สึกว่าเมนูใน KFC เลือกยากหรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="iq3" value="often"><span><div class="option-text">บ่อยครั้ง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq3" value="sometimes"><span><div class="option-text">บางครั้ง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq3" value="never"><span><div class="option-text">ไม่เคย</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">4. คุณคิดว่าฟีเจอร์ที่ช่วย “จับคู่เมนูที่เข้ากัน” ให้คุณอัตโนมัติ จะช่วยให้เลือกอาหารง่ายขึ้นหรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="iq4" value="very_easy"><span><div class="option-text">ง่ายขึ้นมาก</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq4" value="slightly_easy"><span><div class="option-text">ง่ายขึ้นเล็กน้อย</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq4" value="no_difference"><span><div class="option-text">ไม่ต่าง</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">5. คุณคิดว่าไอเดียการ “Matching เมนู เพื่อสร้าง Bucket ในแบบของตัวเอง” น่าสนใจแค่ไหน</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="iq5" value="very"><span><div class="option-text">น่าสนใจมาก</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq5" value="somewhat"><span><div class="option-text">ค่อนข้างน่าสนใจ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq5" value="neutral"><span><div class="option-text">เฉย ๆ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq5" value="not"><span><div class="option-text">ไม่น่าสนใจ</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">6. คุณคิดว่าการปัดเลือกเมนูจะทำให้การสั่งอาหารสนุกขึ้นหรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="iq6" value="high"><span><div class="option-text">มาก</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq6" value="medium"><span><div class="option-text">ปานกลาง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq6" value="low"><span><div class="option-text">น้อย</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">7. ถ้ามีฟีเจอร์นี้ในแอป KFC คุณมีโอกาสลองใช้หรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="iq7" value="definitely"><span><div class="option-text">แน่นอน</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq7" value="maybe"><span><div class="option-text">อาจจะลอง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq7" value="unsure"><span><div class="option-text">ไม่แน่ใจ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="iq7" value="no"><span><div class="option-text">ไม่ใช้</div></span></label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- ================= ส่วนที่ 3: พฤติกรรมผู้บริโภค ================= -->
+            <fieldset>
+                <legend>🍗 พฤติกรรมผู้บริโภค</legend>
+
+                <div class="question-group">
+                    <label class="question-label">1. คุณมักไปทาน KFC กับใครบ่อยที่สุด?</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb_who" value="alone"><span><div class="option-text">คนเดียว</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_who" value="friends"><span><div class="option-text">เพื่อน</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_who" value="partner"><span><div class="option-text">แฟน / แฟน(เก่า)</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_who" value="family"><span><div class="option-text">ครอบครัว</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">2. คอนเทนต์แบบไหนทำให้คุณอยากซื้อ KFC มากที่สุด</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb_content" value="viral"><span><div class="option-text">คลิปไวรัล / ตลก</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_content" value="review"><span><div class="option-text">รีวิวอาหาร</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_content" value="influencer"><span><div class="option-text">อินฟลูเอนเซอร์</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_content" value="promotion"><span><div class="option-text">โปรโมชั่นลดราคา</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb_content" value="storytelling"><span><div class="option-text">แคมเปญเรื่องราว<br>(Storytelling)</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">3. คุณทาน KFC บ่อยแค่ไหน</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb1" value="weekly"><span><div class="option-text">สัปดาห์ละครั้ง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb1" value="monthly"><span><div class="option-text">เดือนละ 1–2 ครั้ง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb1" value="rarely"><span><div class="option-text">นาน ๆ ครั้ง</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">4. คุณเคยใช้แอปของ KFC หรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb2" value="yes"><span><div class="option-text">เคยใช้</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb2" value="no"><span><div class="option-text">ไม่เคยใช้</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">5. เวลาสั่ง KFC คุณชอบเลือกเมนูเองหรือสั่งตามเซตที่มีอยู่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb3" value="custom"><span><div class="option-text">เลือกเอง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb3" value="set"><span><div class="option-text">สั่งเป็นเซต</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb3" value="depends"><span><div class="option-text">แล้วแต่สถานการณ์</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">6. ถ้ามีฟีเจอร์ช่วยแนะนำเมนู คุณสนใจใช้หรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb4" value="interested"><span><div class="option-text">สนใจ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb4" value="maybe"><span><div class="option-text">อาจใช้</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb4" value="not"><span><div class="option-text">ไม่สนใจ</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">7. เวลาสั่ง KFC คุณมักเพิ่มของทานเล่นหรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb5" value="often"><span><div class="option-text">บ่อย</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb5" value="sometimes"><span><div class="option-text">บางครั้ง</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb5" value="rarely"><span><div class="option-text">ไม่ค่อย</div></span></label>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">8. คุณชอบเมนูที่สามารถเลือกส่วนประกอบเองได้หรือไม่</label>
+                    <div class="options-grid">
+                        <label class="radio-btn"><input type="radio" name="cb6" value="like"><span><div class="option-text">ชอบ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb6" value="neutral"><span><div class="option-text">เฉย ๆ</div></span></label>
+                        <label class="radio-btn"><input type="radio" name="cb6" value="dislike"><span><div class="option-text">ไม่ชอบ</div></span></label>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <button type="submit" class="submit-btn">ส่งคำตอบของคุณ ❤️</button>
+        </form>
     </div>
-    <div class="summary-content">
-        <div class="summary-inner">
-            <div id="personRows"></div>
-            <div class="bill-check" id="billCheck"></div>
-        </div>
-    </div>
-</div>
 
-<script>
-const items = [
-    { name: "องุ่นไซน์", price: 189.00 },
-    { name: "เบบี้แครอท", price: 109.00 },
-    { name: "เนยสดจืด", price: 109.00 },
-    { name: "กล่องปิดมิดชิด 10กก.", price: 105.00 },
-    { name: "เกรซชาม 500 มล", price: 99.00 },
-    { name: "สุกี้ประภาศรี", price: 58.00 },
-    { name: "Seafood 500ก", price: 58.00 },
-    { name: "เห็ดออรินจิ", price: 55.00 },
-    { name: "มะนาวแป้น", price: 35.00 },
-    { name: "หอมใหญ่นอก", price: 22.00 },
-    { name: "ผักสลัดโอ็ค RPF", price: 35.00 },
-    { name: "ผักสลัดคอส RPF", price: 35.00 },
-    { name: "ผักกวางตุ้งไต้หวัน", price: 19.00 },
-    { name: "เลมอนนอก", price: 15.00 },
-    { name: "เห็ดเข็มทอง", price: 15.00 },
-    { name: "CB_เกาดามาบัวร์ ตัด", price: 42.00 },
-    { name: "CB_โชริโซ่ ตัด", price: 41.50 },
-    { name: "CB_เชดด้าบล็อค 50%", price: 37.50 },
-    { name: "CB_สโมคชีส ตัดชิ้น", price: 32.75 },
-    { name: "สันแหลมตัดสเต็ก", price: 414.00 },
-    { name: "สันนอกตัดสเต็ก", price: 559.50 },
-    { name: "Au พิคานย่าออแกนิค", price: 113.00 },
-    { name: "Au พิคานย่าออแกนิค", price: 106.25 },
-    { name: "Au สันคอวัวตัดสเต็ก", price: 133.75 },
-    { name: "กุ้งขาว", price: 214.75 },
-    { name: "คอหมู", price: 61.50 },
-    { name: "เนื้อหมูหุ่นแกง", price: 38.75 }
-];
-
-const friends = ["โอเว่น", "พลอย", "ครีม", "เกม", "โน่", "มิ้น"];
-const TOTAL_BILL = 2776.25;
-
-// State: checked[itemIndex][friendIndex]
-const checked = items.map(() => friends.map(() => true));
-
-function renderItems() {
-    const list = document.getElementById('itemsList');
-    list.innerHTML = '';
-    items.forEach((item, i) => {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-
-        const header = document.createElement('div');
-        header.className = 'item-header';
-        header.innerHTML = `<span class="item-name">${item.name}</span><span class="item-price">${item.price.toFixed(2)} ฿</span>`;
-        card.appendChild(header);
-
-        const row = document.createElement('div');
-        row.className = 'friends-row';
-
-        friends.forEach((name, j) => {
-            const chip = document.createElement('div');
-            chip.className = 'friend-chip' + (checked[i][j] ? ' active' : '');
-            chip.innerHTML = `<span class="dot"></span>${name}`;
-            chip.addEventListener('click', () => {
-                checked[i][j] = !checked[i][j];
-                chip.classList.toggle('active', checked[i][j]);
-                calculate();
-            });
-            row.appendChild(chip);
-        });
-
-        card.appendChild(row);
-        list.appendChild(card);
-    });
-}
-
-function calculate() {
-    const totals = new Array(friends.length).fill(0);
-    items.forEach((item, i) => {
-        const who = checked[i].reduce((acc, v, j) => { if(v) acc.push(j); return acc; }, []);
-        if (who.length > 0) {
-            const split = item.price / who.length;
-            who.forEach(j => totals[j] += split);
-        }
-    });
-
-    const checkTotal = totals.reduce((a,b) => a+b, 0);
-
-    // Quick total in header
-    document.getElementById('quickTotal').textContent = checkTotal.toFixed(2) + ' ฿';
-
-    // Person rows
-    const rowsEl = document.getElementById('personRows');
-    rowsEl.innerHTML = '';
-    friends.forEach((name, j) => {
-        const div = document.createElement('div');
-        div.className = 'person-row';
-        div.innerHTML = `<span class="p-name">${name}</span><span class="p-amount">${totals[j].toFixed(2)} ฿</span>`;
-        rowsEl.appendChild(div);
-    });
-
-    document.getElementById('billCheck').textContent = `ยอดใบเสร็จ ${TOTAL_BILL.toFixed(2)} ฿ | ผลรวมที่หาร: ${checkTotal.toFixed(2)} ฿`;
-}
-
-// Toggle summary bar
-document.getElementById('summaryToggle').addEventListener('click', () => {
-    document.getElementById('summaryBar').classList.toggle('open');
-});
-
-renderItems();
-calculate();
-
-// Auto-open summary on load
-setTimeout(() => {
-    document.getElementById('summaryBar').classList.add('open');
-}, 400);
-</script>
 </body>
 </html>
